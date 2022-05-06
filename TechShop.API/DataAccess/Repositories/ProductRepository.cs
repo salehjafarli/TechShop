@@ -23,8 +23,9 @@ namespace TechShop.DataAccess.Repositories
             return val == 1;
         }
 
-        public async Task<bool> DeleteAsync(Product entity)
+        public async Task<bool> DeleteAsync(int id)
         {
+            var entity = await Context.Products.FirstOrDefaultAsync(x => x.Id == id);
             entity.Isdeleted = true;
             Context.Products.Update(entity);
             var val = await Context.SaveChangesAsync();

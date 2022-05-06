@@ -1,27 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Product } from '../../Models/Product';
+import { ProductService } from 'src/app/core/services/product.service';
+import { Product } from '../../core/Models/Product';
 import { ProductModal } from './productModal.component';
 
 @Component({
   selector: 'app-product',
   template: `
   <h1 style="font-size: 40px;">Products</h1>
+  <button class="createBtn" style="margin: 10px 0 10px 0;" mat-raised-button (click)="openDialog()">Create</button>
   <table mat-table [dataSource]="ELEMENT_DATA" class="mat-elevation-z8">
  
-    <ng-container matColumnDef="Id">
+    <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> Id </th>
-      <td mat-cell *matCellDef="let element"> {{element.Id}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
     </ng-container>
   
-    <ng-container matColumnDef="Name">
+    <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="Value">
+    <ng-container matColumnDef="value">
       <th mat-header-cell *matHeaderCellDef> Value </th>
-      <td mat-cell *matCellDef="let element"> {{element.Value}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.value}} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -49,41 +51,45 @@ import { ProductModal } from './productModal.component';
     .demo-row-is-clicked {
       font-weight: bold;
     }
-  `]
+  `],
+  providers : [ProductService]
 })
 export class ProductComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) {}
-  displayedColumns: string[] = ['Id', 'Name', 'Value'];
+  constructor(public dialog: MatDialog, public productService : ProductService) {}
+  displayedColumns: string[] = ['id', 'name', 'value'];
   ELEMENT_DATA: Product[] = [
-    {Id: 1, Name: 'Hydrogen', Value : 2},
-    {Id: 2, Name: 'Helium',Value : 2},
-    {Id: 3, Name: 'Lithium',Value : 2},
-    {Id: 4, Name: 'Beryllium',Value : 2},
-    {Id: 5, Name: 'Boron',Value : 2},
-    {Id: 6, Name: 'Carbon',Value : 2},
-    {Id: 7, Name: 'Nitrogen',Value : 2},
-    {Id: 8, Name: 'Oxygen',Value : 2},
-    {Id: 9, Name: 'Fluorine',Value : 2},
-    {Id: 10,Name: 'Neon',Value : 2},
+    {id: 0, name: 'examp1',value : 2},
+    {id: 1, name: 'examp2',value : 3},
   ];
   ngOnInit(): void {
+    this.loadProducts();
   }
 
-  openDialog(row : Product): void {
+  loadProducts(){
+    var response = this.productService.getAll();
+    response.subscribe(x => 
+    {
+      this.ELEMENT_DATA = x.data;
+    }); 
+  }
+
+  openDialog(row? : Product): void {
     var product = new Product();
-    product.Id = row.Id;
-    product.Name = row.Name; 
-    product.Value = row.Value;
+    let isCreate = true;
+    if(row){
+      isCreate = false;
+      product.id = row.id;
+      product.name = row.name; 
+      product.value = row.value;
+    }
     const dialogRef = this.dialog.open(ProductModal, {
       width: '400px',
-      data: product,
+      data: {product : product , isCreate : isCreate},
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
+      this.loadProducts();
     });
   }
-
 }

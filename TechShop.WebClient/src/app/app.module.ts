@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProductComponent } from './Pages/product/product.component';
 import { CategoryComponent } from './Pages/category/category.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NavbarModule } from 'src/components/navbar.component';
+import { NavbarModule } from 'src/app/components/navbar.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -16,6 +16,8 @@ import {MatButtonModule} from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { CategoryModal } from './Pages/category/categoryModal.component';
 import { ProductModal } from './Pages/product/productModal.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ApiService } from './core/services/api.service';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { ProductModal } from './Pages/product/productModal.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule, 
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTableModule,
@@ -39,7 +42,10 @@ import { ProductModal } from './Pages/product/productModal.component';
     MatButtonModule,
     FontAwesomeModule
   ],
-  providers: [],
+  providers: [
+    ApiService,
+    
+  ],  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

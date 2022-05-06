@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TechShop.Results;
 
 namespace TechShop.Services.Concrete
 {
@@ -26,40 +27,40 @@ namespace TechShop.Services.Concrete
 
         public IRepository<Product> ProductRepository { get; }
 
-        public async Task<(bool res, int id)> CreateProductAsync(ProductCreateDto Category)
+        public async Task<Result<(bool res, int id)>> CreateProductAsync(ProductCreateDto Category)
         {
             var entity = Mapper.Map<Product>(Category);
             var result = await ProductRepository.CreateAsync(entity);
             int id = entity.Id;
-            return (result, id);
+            return new SuccessResult<(bool res, int id)>((result, id));
         }
 
-        public async Task<bool> DeleteProductAsync(int id)
+        public async Task<Result<bool>> DeleteProductAsync(int id)
         {
             var entity = Mapper.Map<Product>(new ProductDto());
-            var result = await ProductRepository.DeleteAsync(entity);
-            return result;
+            var result = await ProductRepository.DeleteAsync(id);
+            return new SuccessResult<bool>(result);
         }
 
-        public async Task<List<ProductDto>> GetAllProductsAsync()
+        public async Task<Result<List<ProductDto>>> GetAllProductsAsync()
         {
             var list = await ProductRepository.GetAllAsync();
             var dtos = Mapper.Map<List<ProductDto>>(list);
-            return dtos;
+            return new SuccessResult<List<ProductDto>>(dtos);
         }
 
-        public async Task<ProductDto> GetProductByIdAsync(int id)
+        public async Task<Result<ProductDto>> GetProductByIdAsync(int id)
         {
             var category = await ProductRepository.GetByIdAsync(id);
             var dto = Mapper.Map<ProductDto>(category);
-            return dto;
+            return new SuccessResult<ProductDto>(dto);
         }
 
-        public async Task<bool> UpdateProductAsync(ProductDto Category)
+        public async Task<Result<bool>> UpdateProductAsync(ProductDto Category)
         {
             var entity = Mapper.Map<Product>(Category);
             var result = await ProductRepository.UpdateAsync(entity);
-            return result;
+            return new SuccessResult<bool>(result);
         }
     }
 }

@@ -11,6 +11,6 @@ namespace TechShop.DataAccess.Repositories
         Task<List<T>> GetAllAsync();
         Task<bool> CreateAsync(T entity);
         Task<bool> UpdateAsync(T entity);
-        Task<bool> DeleteAsync(T entity);
+        Task<bool> DeleteAsync(int id);
     }
 }

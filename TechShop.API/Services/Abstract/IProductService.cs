@@ -3,15 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TechShop.Results;
 
 namespace TechShop.Services.Abstract
 {
     public interface IProductService
     {
-        Task<List<ProductDto>> GetAllProductsAsync();
-        Task<ProductDto> GetProductByIdAsync(int id);
-        Task<(bool res, int id)> CreateProductAsync(ProductCreateDto Product);
-        Task<bool> UpdateProductAsync(ProductDto Product);
-        Task<bool> DeleteProductAsync(int id);
+        Task<Result<List<ProductDto>>> GetAllProductsAsync();
+        Task<Result<ProductDto>> GetProductByIdAsync(int id);
+        Task<Result<(bool res, int id)>> CreateProductAsync(ProductCreateDto Product);
+        Task<Result<bool>> UpdateProductAsync(ProductDto Product);
+        Task<Result<bool>> DeleteProductAsync(int id);
     }
 }

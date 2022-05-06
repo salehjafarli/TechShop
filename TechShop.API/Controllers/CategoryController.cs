@@ -22,38 +22,34 @@ namespace TechShop.Controllers
 
 
         [HttpGet]
-        [Route("get")]
         public async Task<IActionResult> GetAll()
         {
             var products = await CategoryService.GetAllCategoriesAsync();
             return Ok(products);
         }
         [HttpGet]
-        [Route("get/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var product = await CategoryService.GetCategoryByIdAsync(id);
             return Ok(product);
         }
         [HttpPost]
-        [Route("create")]
         public async Task<IActionResult> Create(CategoryCreateDto Dto)
         {
             var result = await CategoryService.CreateCategoryAsync(Dto);
-            return Ok(result.id);
+            return Ok(result);
         }
         [HttpPut]
-        [Route("update")]
         public async Task<IActionResult> Update(CategoryDto Dto)
         {
             var product = await CategoryService.UpdateCategoryAsync(Dto);
             return Ok(product);
         }
         [HttpDelete]
-        [Route("delete")]
-        public async Task<IActionResult> Delete(int categoryId)
+        public async Task<IActionResult> Delete(int id)
         {
-            var product = await CategoryService.DeleteCategoryAsync(categoryId);
+            var product = await CategoryService.DeleteCategoryAsync(id);
             return Ok(product);
         }
     }
