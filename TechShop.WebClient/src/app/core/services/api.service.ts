@@ -1,8 +1,6 @@
 import { HttpClient, HttpParams }from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
 import { apiUrl } from '../consts';
-import { IModel } from '../Models/IModel';
 import { ResponseModel } from '../Models/ResponseModel';
 
 

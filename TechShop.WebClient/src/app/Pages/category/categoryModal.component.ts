@@ -1,4 +1,5 @@
 import { Component, Inject } from "@angular/core";
+import { FormControl, Validators } from "@angular/forms";
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { CategoryService } from "src/app/core/services/category.service";
 import { Category } from "../../core/Models/Category";
@@ -8,17 +9,24 @@ import { Category } from "../../core/Models/Category";
     template: `
         <h1 mat-dialog-title>{{Name}}</h1>
         <div mat-dialog-content>
-        <ng-container *ngIf="!data.isCreate">
+
+          <ng-container *ngIf="!data.isCreate">
             <mat-form-field style="width: 100%;" appearance="fill">
               <mat-label>Id</mat-label>
               <input readonly matInput [(ngModel)]="data.category.id">
             </mat-form-field>
-        </ng-container>
+          </ng-container>
+
           <mat-form-field style="width: 100%;" appearance="fill">
             <mat-label>Name</mat-label>
-            <input matInput [(ngModel)]="data.category.name">
+            <input matInput [(ngModel)]="data.category.name" [formControl]="NameFormControl">
+            <mat-error *ngIf="NameFormControl.hasError('required')">
+              Required
+            </mat-error>
           </mat-form-field>
+
         </div>
+        
         <div mat-dialog-actions>
           <button mat-raised-button color="primary" (click)="onYesClick()" [mat-dialog-close]="data.category.name" cdkFocusInitial>Ok</button>
           <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
@@ -35,8 +43,9 @@ export class CategoryModal {
       public categoryService : CategoryService,
       @Inject(MAT_DIALOG_DATA) public data: { category : Category ,isCreate : boolean},
     ){
-      console.log(data)
     }
+
+    NameFormControl = new FormControl('', [Validators.required]);
 
     Name = this.data.category.name;
 
@@ -53,7 +62,6 @@ export class CategoryModal {
 
     onDeleteClick(id : number){
       let dialogres = false;
-      console.log(id);
       this.categoryService.delete(id).subscribe(x => dialogres = x.data);
       this.dialogRef.close(dialogres);
     }

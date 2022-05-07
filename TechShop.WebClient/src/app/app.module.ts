@@ -13,7 +13,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
+import {MatSelectModule} from '@angular/material/select';
+import { FormsModule , ReactiveFormsModule} from '@angular/forms';
 import { CategoryModal } from './Pages/category/categoryModal.component';
 import { ProductModal } from './Pages/product/productModal.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -39,6 +40,8 @@ import { ApiService } from './core/services/api.service';
     MatInputModule,
     MatDialogModule,
     FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule,
     MatButtonModule,
     FontAwesomeModule
   ],

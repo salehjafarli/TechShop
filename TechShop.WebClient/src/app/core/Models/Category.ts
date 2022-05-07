@@ -1,7 +1,8 @@
-import { IModel } from "./IModel";
 
-export class Category implements IModel
+
+export class Category
 {
+    public no! : number;
     public id! : number;
     public name! : string;
 }

@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Product } from 'src/app/core/Models/Product';
+import { Product, ProductCreate, ProductUpdate } from 'src/app/core/Models/Product';
 import { ResponseModel } from '../Models/ResponseModel';
 import {ApiService } from './api.service'
 
@@ -20,11 +20,11 @@ export class ProductService {
         var obobj = this.apiService.get(`${this.slug}/${id}`);
         return obobj;
     }
-    create(data : Product): Observable<ResponseModel<boolean>> {
+    create(data : ProductCreate): Observable<ResponseModel<boolean>> {
         var obobj = this.apiService.post(`${this.slug}`, data);
         return obobj;
     }
-    update(data : Product): Observable<ResponseModel<boolean>>  {
+    update(data : ProductUpdate): Observable<ResponseModel<boolean>>  {
         var obobj = this.apiService.put(`${this.slug}`, data);
         return obobj;
     }

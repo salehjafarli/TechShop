@@ -16,7 +16,7 @@ namespace TechShop.Validators
         {
             RuleFor(x => x.Id).IdBoilerPlateValidation();
             RuleFor(x => x.Name).NameBoilerPlateValidation();
-            RuleFor(x => x.CategoryId).IdBoilerPlateValidation("categoryid");
+            RuleFor(x => x.Category).NotNull().SetValidator(new CategoryValidator());
         }
     }
 }

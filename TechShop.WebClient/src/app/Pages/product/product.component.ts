@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Category } from 'src/app/core/Models/Category';
 import { ProductService } from 'src/app/core/services/product.service';
 import { Product } from '../../core/Models/Product';
 import { ProductModal } from './productModal.component';
@@ -15,6 +16,11 @@ import { ProductModal } from './productModal.component';
       <th mat-header-cell *matHeaderCellDef> Id </th>
       <td mat-cell *matCellDef="let element"> {{element.id}} </td>
     </ng-container>
+
+    <ng-container matColumnDef="no">
+      <th mat-header-cell *matHeaderCellDef> No </th>
+      <td mat-cell *matCellDef="let element"> {{element.no}} </td>
+    </ng-container>
   
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -24,6 +30,10 @@ import { ProductModal } from './productModal.component';
     <ng-container matColumnDef="value">
       <th mat-header-cell *matHeaderCellDef> Value </th>
       <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+    </ng-container>
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef> Category </th>
+      <td mat-cell *matCellDef="let element"> {{element.category.name}} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -57,10 +67,10 @@ import { ProductModal } from './productModal.component';
 export class ProductComponent implements OnInit {
 
   constructor(public dialog: MatDialog, public productService : ProductService) {}
-  displayedColumns: string[] = ['id', 'name', 'value'];
+  displayedColumns: string[] = [ 'no', 'name', 'value', 'category'];
   ELEMENT_DATA: Product[] = [
-    {id: 0, name: 'examp1',value : 2},
-    {id: 1, name: 'examp2',value : 3},
+    {no: 0, id: 0, name: 'examp1',value : 2, category : new Category()},
+    {no: 1, id: 1, name: 'examp2',value : 3, category : new Category()},
   ];
   ngOnInit(): void {
     this.loadProducts();
@@ -70,6 +80,10 @@ export class ProductComponent implements OnInit {
     var response = this.productService.getAll();
     response.subscribe(x => 
     {
+      let i : number = 0;
+      x.data.forEach(p => {
+        p.no = ++i;
+      });
       this.ELEMENT_DATA = x.data;
     }); 
   }
@@ -82,6 +96,7 @@ export class ProductComponent implements OnInit {
       product.id = row.id;
       product.name = row.name; 
       product.value = row.value;
+      product.category = row.category;
     }
     const dialogRef = this.dialog.open(ProductModal, {
       width: '400px',

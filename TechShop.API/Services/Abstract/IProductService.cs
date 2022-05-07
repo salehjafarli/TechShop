@@ -12,7 +12,7 @@ namespace TechShop.Services.Abstract
         Task<Result<List<ProductDto>>> GetAllProductsAsync();
         Task<Result<ProductDto>> GetProductByIdAsync(int id);
         Task<Result<(bool res, int id)>> CreateProductAsync(ProductCreateDto Product);
-        Task<Result<bool>> UpdateProductAsync(ProductDto Product);
+        Task<Result<bool>> UpdateProductAsync(ProductUpdateDto Product);
         Task<Result<bool>> DeleteProductAsync(int id);
     }
 }

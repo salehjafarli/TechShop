@@ -34,12 +34,12 @@ namespace TechShop.DataAccess.Repositories
 
         public async Task<List<Product>> GetAllAsync()
         {
-            return await Context.Products.ToListAsync();
+            return await Context.Products.Include(p => p.Category).Where(x => !x.Isdeleted ).ToListAsync();
         }
 
         public async Task<Product> GetByIdAsync(int id)
         {
-            return await Context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            return await Context.Products.Include(p => p.Category).FirstOrDefaultAsync(x => x.Id == id && !x.Isdeleted);
         }
 
         public async Task<bool> UpdateAsync(Product entity)

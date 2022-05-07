@@ -13,13 +13,17 @@ import { CategoryModal } from './categoryModal.component';
   <h1 style="font-size: 40px;">Categories</h1>
   <button class="createBtn" style="margin: 10px 0 10px 0;" mat-raised-button (click)="openDialog()">Create</button>
   <table mat-table [dataSource]="ELEMENT_DATA" class="mat-elevation-z8">
-    <!-- Position Column -->
+
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> Id </th>
       <td mat-cell *matCellDef="let element"> {{element.id}} </td>
     </ng-container>
 
-    <!-- Name Column -->
+    <ng-container matColumnDef="no">
+      <th mat-header-cell *matHeaderCellDef> no </th>
+      <td mat-cell *matCellDef="let element"> {{element.no}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
@@ -56,10 +60,10 @@ import { CategoryModal } from './categoryModal.component';
 export class CategoryComponent implements OnInit {
   constructor(public dialog: MatDialog, public categoryService : CategoryService) {}
   
-  displayedColumns: string[] = ['id', 'name'];
+  displayedColumns: string[] = [ 'no', 'name'];
   ELEMENT_DATA: Category[] = [
-    {id: 0, name: 'examp1'},
-    {id: 1, name: 'examp2'}
+    {no: 0, id: 0, name: 'examp1'},
+    {no: 1, id: 1, name: 'examp2'}
   ]
   clickedRows = new Set<Category>();
 
@@ -71,6 +75,10 @@ export class CategoryComponent implements OnInit {
     var response = this.categoryService.getAll();
     response.subscribe(x => 
     {
+      let i : number = 0;
+      x.data.forEach(p => {
+        p.no = ++i;
+      });
       this.ELEMENT_DATA = x.data;
     }); 
   }

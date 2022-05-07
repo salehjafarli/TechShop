@@ -37,7 +37,7 @@ namespace TechShop.Controllers
             return Ok(result);
         }
         [HttpPut]
-        public async Task<IActionResult> Update(ProductDto Dto)
+        public async Task<IActionResult> Update(ProductUpdateDto Dto)
         {
             var product = await ProductService.UpdateProductAsync(Dto);
             return Ok(product);

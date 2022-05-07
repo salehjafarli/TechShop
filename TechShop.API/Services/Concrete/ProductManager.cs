@@ -19,6 +19,8 @@ namespace TechShop.Services.Concrete
             var MapperConfig = new MapperConfiguration(c =>
             {
                 c.CreateMap<ProductCreateDto, Product>();
+                c.CreateMap<ProductUpdateDto, Product>();
+                c.CreateMap<CategoryDto, Category>().ReverseMap();
                 c.CreateMap<ProductDto, Product>().ReverseMap();
             });
             Mapper = MapperConfig.CreateMapper();
@@ -37,7 +39,6 @@ namespace TechShop.Services.Concrete
 
         public async Task<Result<bool>> DeleteProductAsync(int id)
         {
-            var entity = Mapper.Map<Product>(new ProductDto());
             var result = await ProductRepository.DeleteAsync(id);
             return new SuccessResult<bool>(result);
         }
@@ -56,7 +57,7 @@ namespace TechShop.Services.Concrete
             return new SuccessResult<ProductDto>(dto);
         }
 
-        public async Task<Result<bool>> UpdateProductAsync(ProductDto Category)
+        public async Task<Result<bool>> UpdateProductAsync(ProductUpdateDto Category)
         {
             var entity = Mapper.Map<Product>(Category);
             var result = await ProductRepository.UpdateAsync(entity);
